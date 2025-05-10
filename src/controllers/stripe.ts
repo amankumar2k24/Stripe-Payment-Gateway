@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ObjectId } from "mongodb";
 import Stripe from "stripe";
 import dotenv from "dotenv";
-import { response, serverError } from "../helpers/response";
+import { parseStripeDate, response, serverError } from "../helpers/response";
 import { productModel } from "../models/product";
 import { priceModel } from "../models/price";
 import { userModel } from "../models/user";
@@ -304,12 +304,6 @@ export const webhook = async (req: Request, res: Response): Promise<any> => {
     console.error("Webhook handler error:", err);
     res.status(500).send("Internal Server Error");
   }
-};
-
-const parseStripeDate = (timestamp: number | undefined): Date | null => {
-  if (!timestamp) return null;
-  const date = new Date(timestamp * 1000);
-  return isNaN(date.getTime()) ? null : date;
 };
 
 export const getAllWebhooksList = async (req: Request, res: Response): Promise<any> => {

@@ -10,4 +10,10 @@ const response = ( res: any, isError: boolean, statusCode: number, message: stri
   return res.status(statusCode).json({ message: message });
 };
 
-export { serverError, response };
+const parseStripeDate = (timestamp: number | undefined): Date | null => {
+  if (!timestamp) return null;
+  const date = new Date(timestamp * 1000);
+  return isNaN(date.getTime()) ? null : date;
+};
+
+export { serverError, response ,parseStripeDate};
